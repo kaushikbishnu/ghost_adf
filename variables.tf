@@ -2,6 +2,7 @@
 variable "provider_token" {
   type = string
   sensitive = true
+  default="aiR4Dw6yf2StCw.atlasv1.qghrj1AzuLcsUSsCPsaR24atQFIaCeKhDfDnQ9xwEIvMDm9myuG0i5sufA6ZaY8zGfk"
 }
 
 # azure service principal info
