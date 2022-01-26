@@ -1,3 +1,9 @@
+#starter kit
+variable "provider_token" {
+  type = string
+  sensitive = true
+}
+
 # azure service principal info
 variable azure {
   default = {
