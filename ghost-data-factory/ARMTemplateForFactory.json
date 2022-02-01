@@ -37,7 +37,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureMySqlSource",
-								"query": "SELECT CONCAT(table_schema, '.', table_name) as table_name\nFROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test') LIMIT 2",
+								"query": "SELECT table_name\nFROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test') LIMIT 2",
 								"queryTimeout": "02:00:00"
 							},
 							"dataset": {
@@ -83,7 +83,7 @@
 										"source": {
 											"type": "AzureMySqlSource",
 											"query": {
-												"value": "@concat('TRUNCATE TABLE ', item().table_name, ' CASCADE;')",
+												"value": "@concat('SET FOREIGN_KEY_CHECKS = 0;','TRUNCATE TABLE ', item().table_name, '; SET FOREIGN_KEY_CHECKS = 1;')",
 												"type": "Expression"
 											},
 											"queryTimeout": "02:00:00"
