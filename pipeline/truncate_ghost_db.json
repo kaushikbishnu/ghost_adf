@@ -45,12 +45,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"tables": {
-				"type": "string",
-				"defaultValue": "actions,benefits"
-			}
-		},
 		"annotations": []
 	}
 }
