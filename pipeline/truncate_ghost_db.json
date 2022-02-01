@@ -17,13 +17,14 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureMySqlSource",
-						"query": "SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test')",
+						"query": "SELECT table_name FROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test')",
 						"queryTimeout": "02:00:00"
 					},
 					"dataset": {
 						"referenceName": "AzureMySqlTable1",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
