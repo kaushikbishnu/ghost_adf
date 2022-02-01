@@ -37,7 +37,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureMySqlSource",
-								"query": "SET FOREIGN_KEY_CHECKS = 0;\n\nSELECT @str := CONCAT('TRUNCATE TABLE ', table_schema, '.', table_name, ';')\nFROM   information_schema.tables\nWHERE  table_type   = 'BASE TABLE'\n  AND  table_schema IN ('db-ghost-test');\n\nPREPARE stmt FROM @str;\n\nEXECUTE stmt;\n\nDEALLOCATE PREPARE stmt;\n\nSET FOREIGN_KEY_CHECKS = 1;",
+								"query": "SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test')",
 								"queryTimeout": "02:00:00"
 							},
 							"dataset": {
