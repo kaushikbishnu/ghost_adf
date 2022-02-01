@@ -17,6 +17,19 @@
 				"typeProperties": {
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "IterateSQLTables",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.tables",
+						"type": "Expression"
+					},
+					"isSequential": true
+				}
 			}
 		],
 		"parameters": {
