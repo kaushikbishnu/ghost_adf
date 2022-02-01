@@ -1,0 +1,9 @@
+{
+	"name": "ghost-data-factory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cd802178-6703-4b6c-80df-8fc5f7ead566",
+		"tenantId": "bad3cd3d-a88a-478d-a251-43f7355aad77"
+	}
+}
