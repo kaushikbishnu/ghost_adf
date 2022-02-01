@@ -3,45 +3,27 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "IterateSQLTables",
-				"type": "ForEach",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"items": {
-						"value": "@pipeline().parameters.tables",
-						"type": "Expression"
+					"source": {
+						"type": "AzureMySqlSource",
+						"query": "SET FOREIGN_KEY_CHECKS = 0;\n\nSELECT @str := CONCAT('TRUNCATE TABLE ', table_schema, '.', table_name, ';')\nFROM   information_schema.tables\nWHERE  table_type   = 'BASE TABLE'\n  AND  table_schema IN ('db-ghost-test');\n\nPREPARE stmt FROM @str;\n\nEXECUTE stmt;\n\nDEALLOCATE PREPARE stmt;\n\nSET FOREIGN_KEY_CHECKS = 1;",
+						"queryTimeout": "02:00:00"
 					},
-					"isSequential": true,
-					"activities": [
-						{
-							"name": "Tuncate Table",
-							"type": "Lookup",
-							"dependsOn": [],
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"source": {
-									"type": "AzureMySqlSource",
-									"query": {
-										"value": "truncate table @item().TABLE_NAME",
-										"type": "Expression"
-									},
-									"queryTimeout": "02:00:00"
-								},
-								"dataset": {
-									"referenceName": "AzureMySqlTable1",
-									"type": "DatasetReference"
-								}
-							}
-						}
-					]
+					"dataset": {
+						"referenceName": "AzureMySqlTable1",
+						"type": "DatasetReference"
+					}
 				}
 			}
 		],
