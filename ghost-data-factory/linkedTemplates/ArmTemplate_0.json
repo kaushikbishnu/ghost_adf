@@ -54,7 +54,7 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "TRUNCATE TABLES",
+						"name": "GET TABLE NAMES",
 						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
@@ -68,14 +68,66 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureMySqlSource",
-								"query": "SELECT table_schema, table_name FROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test')",
+								"query": "SELECT CONCAT(table_schema, '.', table_name) as table_name\nFROM INFORMATION_SCHEMA.TABLES where table_schema in ('db-ghost-test') LIMIT 2",
 								"queryTimeout": "02:00:00"
 							},
 							"dataset": {
 								"referenceName": "AzureMySqlTable1",
 								"type": "DatasetReference",
 								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GET TABLE NAMES",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GET TABLE NAMES').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Lookup1",
+									"type": "Lookup",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "AzureMySqlSource",
+											"query": {
+												"value": "@concat('TRUNCATE TABLE ', item().table_name, ' CASCADE;')",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00"
+										},
+										"dataset": {
+											"referenceName": "AzureMySqlTable1",
+											"type": "DatasetReference",
+											"parameters": {}
+										},
+										"firstRowOnly": false
+									}
+								}
+							]
 						}
 					}
 				],
