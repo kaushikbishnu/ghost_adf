@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Lookup1",
+				"name": "TRUNCATE TABLES",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
